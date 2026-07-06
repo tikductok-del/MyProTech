@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Overload: Love Detected ⚠️</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #00ff66;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .terminal {
+            background: #000000;
+            border: 1px solid #00ff66;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 25px;
+            border-radius: 5px;
+            min-height: 300px;
+            position: relative;
+        }
+
+        .terminal-header {
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 12px;
+            color: rgba(0, 255, 102, 0.5);
+        }
+
+        .line {
+            margin: 10px 0;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background: #00ff66;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: none; /* Hiện sau khi chạy chữ xong */
+            gap: 15px;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #00ff66;
+            color: #000;
+            box-shadow: 0 0 10px #00ff66;
+        }
+
+        .success-msg {
+            color: #ff3366;
+            text-shadow: 0 0 10px #ff3366;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal">
+        <div class="terminal-header">CRUSH_CORE_HAX_v2.6.exe</div>
+        <div id="output"></div>
+        <span id="cursor" class="cursor"></span>
+        
+        <div class="btn-group" id="actions">
+            <button onclick="acceptHack()">[ CHẤP NHẬN KẾT NỐI ]</button>
+            <button onclick="denyHack()">[ TỪ CHỐI ]</button>
+        </div>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+        const cursor = document.getElementById('cursor');
+        const actions = document.getElementById('actions');
+
+        // Các dòng lệnh sẽ tự động chạy
+        const script = [
+            "> Đang khởi tạo tiến trình quét thiết bị ngoại vi...",
+            "> Đang dò tìm mục tiêu... Đã định vị: Người đáng yêu nhất hệ mặt trời.",
+            "> Đang xâm nhập vào suy nghĩ của đối phương... [10%]",
+            "> Đang quét nhịp tim... [45%] -> Nhịp tim đập nhanh bất thường khi ở cạnh tớ.",
+            "> CẢNH BÁO: Phát hiện tớ đã dính bùa yêu nặng 100%. Không thể tự sửa lỗi.",
+            "> Hệ thống chốt hạ: Tớ thích cậu mất rồi! Thích rất nhiều.",
+            "> Yêu cầu cấp quyền truy cập vào trái tim của cậu? (Y/N)"
+        ];
+
+        let lineIndex = 0;
+
+        function printLine(text, callback) {
+            let div = document.createElement('div');
+            div.className = "line";
+            output.appendChild(div);
+            
+            let charIndex = 0;
+            // Hiệu ứng gõ từng chữ
+            let typer = setInterval(() => {
+                if (charIndex < text.length) {
+                    div.innerHTML += text.charAt(charIndex);
+                    charIndex++;
+                } else {
+                    clearInterval(typer);
+                    callback();
+                }
+            }, 40); // Tốc độ gõ chữ (ms)
+        }
+
+        function startTerminal() {
+            if (lineIndex < script.length) {
+                printLine(script[lineIndex], () => {
+                    lineIndex++;
+                    setTimeout(startTerminal, 600); // Khoảng nghỉ giữa các dòng
+                });
+            } else {
+                // Chạy xong hết thì hiện nút lựa chọn
+                actions.style.display = 'flex';
+            }
+        }
+
+        function acceptHack() {
+            actions.style.display = 'none';
+            let div = document.createElement('div');
+            div.className = "line success-msg";
+            div.innerHTML = "\n> [SUCCESS] Quyền truy cập đã được cấp thành công! 🎉\n> Từ nay cậu chính là 'người điều hành' cuộc đời tớ. Nhớ đối xử tốt với hệ thống này nhé! ❤️";
+            output.appendChild(div);
+        }
+
+        function denyHack() {
+            alert("⚠️ LỖI HỆ THỐNG: Nút này đã bị vô hiệu hóa! Cậu chỉ có thể chọn Chấp nhận kết nối mà thôi 😜");
+        }
+
+        // Bắt đầu chạy khi tải trang
+        window.onload = () => {
+            startTerminal();
+        };
+    </script>
+</body>
+</html>
 
