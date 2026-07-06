@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thử thách lòng can đảm</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Giao diện câu hỏi ban đầu */
+        .container {
+            text-align: center;
+            background: #2a2a2a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-yes {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .btn-no {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Màn hình hù dọa (Mặc định ẩn đi) */
+        #jumpscare-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #scary-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Hoặc contain tùy thuộc vào ảnh của bạn */
+            animation: shake 0.1s infinite; /* Hiệu ứng rung lắc */
+        }
+
+        /* Hiệu ứng rung lắc cho ảnh thêm phần đáng sợ */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(2px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(2px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Giao diện câu hỏi -->
+    <div class="container" id="quiz-box">
+        <h1>Bạn có muốn chơi một trò chơi với tôi không?</h1>
+        <div class="btn-group">
+            <button class="btn-yes" onclick="chooseYes()">Có chứ!</button>
+            <button class="btn-no" onclick="chooseNo()">Không, lướt qua</button>
+        </div>
+    </div>
+
+    <!-- Màn hình hù dọa -->
+    <div id="jumpscare-overlay">
+        <!-- Thay link ảnh con ma của bạn vào đây -->
+        <img id="scary-image" src="con-ma.jpg" alt="BOO!">
+    </div>
+
+    <!-- File âm thanh tiếng thét -->
+    <audio id="scream-sound" src="tieng-het.mp3" preload="auto"></audio>
+
+    <script>
+        // Hàm xử lý khi chọn KHÔNG -> Hù dọa
+        function chooseNo() {
+            const overlay = document.getElementById('jumpscare-overlay');
+            const audio = document.getElementById('scream-sound');
+            
+            // Hiển thị màn hình con ma
+            overlay.style.display = 'flex';
+            
+            // Bật âm thanh ở mức âm lượng cao nhất
+            audio.volume = 1.0;
+            audio.play().catch(function(error) {
+                console.log("Trình duyệt chặn tự động phát âm thanh: ", error);
+            });
+
+            // Tự động ẩn đi sau 3 giây để người dùng không quá hoảng loạn
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                audio.pause();
+                audio.currentTime = 0;
+            }, 3000);
+        }
+
+        // Hàm xử lý khi chọn CÓ
+        function chooseYes() {
+            alert("Ngoan lắm! Chuẩn bị vào game nhé...");
+            // Bạn có thể chuyển hướng link game ở đây nếu muốn:
+            // window.location.href = "link_game_cua_ban";
+        }
+    </script>
+</body>
+</html>
+
